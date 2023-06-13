@@ -5,6 +5,7 @@ import numpy as np
 import os
 from tensorflow.keras.preprocessing import image
 import shutil
+import pandas as pd
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
@@ -35,7 +36,7 @@ def houseDetection(file):
         print("User tidak layak menerima bantuan")
     return output1
 
-def salaryPrediction(pendapatan)
+def salaryPrediction(pendapatan):
     data = pd.read_csv('combined_data.csv')
 
     nama = data['Nama'].values
@@ -51,7 +52,7 @@ def salaryPrediction(pendapatan)
     if clusters == 2:
         output2 = 1
         print("Kategori penghasilan user: rendah")
-    elif:
+    elif clusters == 1:
         output2 = 0
         print("kategori penghasilan user: menengah")
     else:
@@ -71,7 +72,7 @@ def classifybean(input: UploadFile = File(...)):
     savefile = input.filename
     with open(savefile, "wb") as buffer:
         shutil.copyfileobj(input.file, buffer)
-    result = somethingidk2(savefile)
+    result = houseDetection(savefile)
     os.remove(savefile)
     return {result}
     
