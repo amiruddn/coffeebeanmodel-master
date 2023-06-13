@@ -66,7 +66,7 @@ def hello_world():
     return ("hello world")
 
 @app.post("/3/")
-def classifybean(input: UploadFile = File(...)):
+def classifyhouse(input: UploadFile = File(...)):
     print(input.filename)
     print(type(input.filename))
     savefile = input.filename
@@ -74,7 +74,24 @@ def classifybean(input: UploadFile = File(...)):
         shutil.copyfileobj(input.file, buffer)
     result = houseDetection(savefile)
     os.remove(savefile)
-    return {result}
-    
+    return result
+
+@app.post("/4/")
+def predictsalary(pendapatan: int):
+    output = salaryPrediction(pendapatan)
+    return output
+
+@app.post("/5/")
+def Kelayakan(pendapatan: int, input: UploadFile = File(...)):
+    result = classifyhouse(input)
+    output = predictsalary(pendapatan)
+
+    hasil_akhir = 1 if (result == 1 and output == 1) else 0
+    print("outout:", output)
+    print("result:", result)
+    print("hasil:", hasil_akhir)
+    label = ["tidak layak menerima bantuan", "layak menerima bantuan"]
+    return {"Kelayakan": label[hasil_akhir]}
+
 if __name__ == '__main__':
     uvicorn.run(app, host="0.0.0.0", port=port, timeout_keep_alive=1200)
